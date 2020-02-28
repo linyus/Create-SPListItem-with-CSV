@@ -1,0 +1,25 @@
+Add-PSSnapin Microsoft.SharePoint.PowerShell
+  
+#Read CSV file
+$CSVData = Import-CSV -path "D:\Data.csv"
+  
+#Get SPWeb
+$web = Get-SPWeb -identity "http://sitecollection"
+  
+#Get SPList
+$List = $web.Lists["ListName"]
+  
+#Loop every Row in the CSV
+foreach ($Row in $CSVData)
+{
+    #New SPListItem 
+    $Item = $List.Items.add()
+
+    #Add SPColumn Value
+    $item["Title"] = $row.Title
+    $item["Name"] = $row.Name
+    $item["Mark"] = $row.Mark
+    $item.Update()
+    Write-Host "Added: "$row.Name -ForegroundColor Green
+
+}
